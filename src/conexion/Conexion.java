@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import cliente.Cliente;
 
 public class Conexion {
-	Connection conexion = null;
+	private Connection conexion = null;
 	
 	public void conectar() {
 		
@@ -69,7 +69,7 @@ public class Conexion {
                 
                 System.out.println("=======================");
             }
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 		}
 	}
@@ -81,11 +81,23 @@ public class Conexion {
 			st.setString(1, cliente.getNombre());
 			st.setString(2, cliente.getDireccion());
 			st.setInt(3, cliente.getTelefono());
-			st.execute();
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			if(st.execute() == false) {
+				System.out.println("Error al modificar cliente. Cliente no encontrado");
+			}
+		} catch (SQLException e) {
+			System.err.println("Error al modificar cliente" + e.getMessage());
 		}
 		
+	}
+	
+	public void eliminarCliente(Cliente cliente) {
+		try {
+			PreparedStatement st = conexion.prepareStatement("DELETE FROM CLIENTES WHERE id=?");
+			st.setInt(1, cliente.getId());
+			st.execute();
+		} catch (SQLException e) {
+			System.err.println("Error al eliminar cliente" + e.getMessage());
+		}
 	}
 	
 	

@@ -1,3 +1,4 @@
+package main;
 import cliente.Cliente;
 import conexion.Conexion;
 
@@ -15,6 +16,9 @@ public class Main {
 
 		/* Modifico cliente */
 		c.modificarClientes(new Cliente(1234,"Tesla Motors","Av. Elon Mosca 1212",55555575));
+		
+		/* Elimino cliente */
+		//c.eliminarCliente(new Cliente(1234,"","",0));
 		
 		/* Muestro los datos que hay en la tabla */
 		c.mostrarClientes();
