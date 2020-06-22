@@ -49,32 +49,7 @@ public class Conexion {
 		}
 	}
 	
-	public void mostrarClientes() {
-		ResultSet resultado = null;
-		try {
-			PreparedStatement st = conexion.prepareStatement("SELECT * FROM CLIENTES");
-			resultado = st.executeQuery();
-			while (resultado.next()) {
-                System.out.print("ID: ");
-                System.out.println(resultado.getInt("id"));
-
-                System.out.print("Nombre: ");
-                System.out.println(resultado.getString("nombre"));
-
-                System.out.print("Dirección ");
-                System.out.println(resultado.getString("direccion"));
-
-                System.out.print("Telefono ");
-                System.out.println(resultado.getString("telefono"));
-                
-                System.out.println("=======================");
-            }
-		} catch (SQLException e) {
-			System.err.println(e.getMessage());
-		}
-	}
-	
-	public void modificarClientes(Cliente cliente) {
+	public void modificarCliente(Cliente cliente) {
 		try {
 			PreparedStatement st = conexion.prepareStatement("UPDATE CLIENTES SET nombre=?, direccion=?, telefono=? WHERE id=?");
 			st.setInt(4, cliente.getId());
@@ -100,5 +75,29 @@ public class Conexion {
 		}
 	}
 	
+	public void mostrarClientes() {
+		ResultSet resultado = null;
+		try {
+			PreparedStatement st = conexion.prepareStatement("SELECT * FROM CLIENTES");
+			resultado = st.executeQuery();
+			while (resultado.next()) {
+                System.out.print("ID: ");
+                System.out.println(resultado.getInt("id"));
+
+                System.out.print("Nombre: ");
+                System.out.println(resultado.getString("nombre"));
+
+                System.out.print("Dirección ");
+                System.out.println(resultado.getString("direccion"));
+
+                System.out.print("Telefono ");
+                System.out.println(resultado.getString("telefono"));
+                
+                System.out.println("=======================");
+            }
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+	}
 	
 }
