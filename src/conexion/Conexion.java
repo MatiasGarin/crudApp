@@ -1,5 +1,6 @@
 package conexion;
 
+import java.awt.TrayIcon.MessageType;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,6 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import cliente.Cliente;
 
@@ -19,7 +24,7 @@ public class Conexion {
 			String url = "clientes.db";
 			conexion = DriverManager.getConnection("jdbc:sqlite:"+url);
 			if(conexion != null) {
-				System.out.println("Conectado");
+				JOptionPane.showMessageDialog(null, "Conectado", "Base de Datos", 3);
 			}
 		} catch (SQLException e) {
 			System.err.println("No se ha podido Conectar " + e.getMessage());
@@ -68,6 +73,25 @@ public class Conexion {
                 System.out.println(resultado.getString("telefono"));
                 
                 System.out.println("=======================");
+            }
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+		}
+	}
+	
+	public void mostrarClientes(DefaultTableModel modelo) {
+		ResultSet resultado = null;
+		try {
+			PreparedStatement st = conexion.prepareStatement("SELECT * FROM CLIENTES");
+			resultado = st.executeQuery();
+			while (resultado.next()) {
+				String[] registros = new String[4];
+				registros[0] = Integer.toString(resultado.getInt("id"));
+				registros[1] = resultado.getString("nombre");
+				registros[2] = resultado.getString("direccion");
+				registros[3] = Integer.toString(resultado.getInt("telefono"));
+                
+				modelo.addRow(registros);
             }
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());

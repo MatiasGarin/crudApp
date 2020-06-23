@@ -1,6 +1,9 @@
 package graficos;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -10,6 +13,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import conexion.Conexion;
+
 public class Ventana extends JFrame{
 
 	/**
@@ -17,6 +22,7 @@ public class Ventana extends JFrame{
 	 */
 	private static final long serialVersionUID = -1797331175626741883L;
 	JPanel panelJPanel;
+	Conexion c;
 	/* Tabla */
 	private JScrollPane tablaJScroll;
 	private JTable tablaJTable;
@@ -32,8 +38,9 @@ public class Ventana extends JFrame{
 	private JTextField telefonoJTextField;
 	private JButton enviarJButton;
 	
-	public Ventana() {
+	public Ventana(Conexion conexion) {
 		panelJPanel = new JPanel();
+		c = conexion;
 		tablaJLabel = new JLabel("Clientes");
 		tablaJTable = new JTable();
 		idJLabel = new JLabel("Id: ");
@@ -45,8 +52,9 @@ public class Ventana extends JFrame{
 		telefonoJLabel = new JLabel("Telefono: ");
 		telefonoJTextField = new JTextField();
 		enviarJButton = new JButton("Buscar");
-		iniciarTabla();
+		actualizarTabla();
 		tablaJScroll = new JScrollPane(tablaJTable);
+		
 		inicializar();
 	}
 	
@@ -93,10 +101,19 @@ public class Ventana extends JFrame{
 		panelJPanel.add(enviarJButton);
 		
 		getContentPane().add(panelJPanel);
+		
+		enviarJButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				actualizarTabla();
+				tablaJLabel.repaint();
+			}
+		});
 
 	}
 
-	private void iniciarTabla() {
+	private void actualizarTabla() {
 		DefaultTableModel modelo = new DefaultTableModel();
 		
 		modelo.addColumn("Id");
@@ -104,6 +121,8 @@ public class Ventana extends JFrame{
 		modelo.addColumn("Direccion");
 		modelo.addColumn("Telefono");
 		
+		c.mostrarClientes(modelo);
 		tablaJTable = new JTable(modelo);
 	}
+
 }
