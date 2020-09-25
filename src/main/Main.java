@@ -1,5 +1,4 @@
 package main;
-import cliente.Cliente;
 import conexion.Conexion;
 import graficos.Ventana;
 
@@ -31,13 +30,10 @@ public class Main {
 	public static void main(String[] args) {
 		Conexion c = new Conexion();
 		
-//		/* Conexion con la base de datos */
+		/* Conexion con la base de datos */
 		c.conectar();
 		
 		Ventana ventana = new Ventana(c);
 		ventana.setVisible(true);
-		
-		c.eliminarCliente(new Cliente(5555,"","",0));
-		//c.agregarCliente(new Cliente(5555,"Manaos SA","Rio de la Plata 333",87654398));
 	}
 }
